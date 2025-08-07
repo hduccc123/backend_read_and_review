@@ -5,10 +5,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+
 const app = express();
-
+//configure view engine
 viewEngine(app);
-
+//configure body parser
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+//configure routes
 webRoutes(app);
 
 const PORT = process.env.PORT;
