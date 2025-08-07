@@ -1,24 +1,44 @@
 import express from 'express';
-const dbconnect = require('../configs/databaseConfig.js');
+import reigisterService from '../service/userService.js';
+import e from 'express';
 
-const reigister = (req, res) => {
-    res.render('reigister');
-}
-// Ham dang ki tai khoan moi
-const reigisterCreate = async (req, res) => {
+const handleReigister = (req, res) => {
+    let email = req.body.email;
     let username = req.body.username;
     let password = req.body.password;
-    let email = req.body.email;
-    try {
-        const [rows] = await dbconnect.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email]);
-        res.send('User registered successfully: ' + username + ' ' + password + ' ' + email);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Lỗi server' });
+    let confirmPassword = req.body.confirm - password;
+    if (!email || !username || !password) {
+        return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin' });
+    }
+    else if (password !== confirmPassword) {
+        return res.status(400).json({ message: 'Vui lòng xác nhận đúng mật khẩu' });
+    }
+    reigisterService.reigisterSevrvice(email, username, password)
+    res.status(200).json({ message: 'Đăng ký thành công' });
+}
+
+const gotoReigister = (req, res) => {
+    return res.render('reigister.ejs');
+}
+
+const handleLogin = async (req, res) => {
+    let login_username = req.body['login-username'];
+    let login_password = req.body['login-password'];
+    if (!login_username || !login_password) {
+        return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin đăng nhập' });
+    }
+    const result = await reigisterService.loginService(login_username, login_password);
+    if (result.success) {
+        // Đăng nhập thành công
+        return res.status(200).json({ message: 'Đăng nhập thành công', user: result.user });
+    } else {
+        // Đăng nhập thất bại
+        return res.status(401).json({ message: result.message });
     }
 }
 
 export default {
-    reigister,
-    reigisterCreate
+    handleReigister,
+    gotoReigister,
+    handleLogin
 };

@@ -8,8 +8,9 @@ const router = express.Router();
 const webRoutes = (app) => {
     // Define your routes here
     router.get('/', homeController.home);
-    router.get('/reigister', userController.reigister);
-    router.post("/reigister/register", userController.reigisterCreate); // Assuming you want to handle registration via POST
+    router.get('/reigister', userController.gotoReigister);
+    router.post('/reigister/register', userController.handleReigister);
+    router.post('/login', userController.handleLogin);
     // Add more routes as needed
     app.use('/', router);
 }

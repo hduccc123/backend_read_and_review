@@ -17,14 +17,16 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <h3 class="card-title text-center mb-4">Đăng nhập</h3>
-                        <form>
+                        <form method="POST" action="/login">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Username:</label>
-                                <input type="text" class="form-control" id="username" placeholder="Username">
+                                <input type="text" class="form-control" id="username" placeholder="Username"
+                                    name="login-username">
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password:</label>
-                                <input type="password" class="form-control" id="password" placeholder="Password">
+                                <input type="password" class="form-control" id="password" placeholder="Password"
+                                    name="login-password">
                             </div>
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="remember">
