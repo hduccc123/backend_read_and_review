@@ -7,16 +7,22 @@ const getUserList = async () => {
     return userList;
 };
 
-const createUser = async (userData) => {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
+const createNewUser = async (name, email, password, phone, address, role, gender) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await db.User.create({
-        ...userData,
-        password_hash: hashedPassword
+        name: name,
+        password_hash: hashedPassword,
+        address: address,
+        email: email,
+        phone: phone,
+        gender: gender,
+        role: role
     });
     return newUser;
-};
+}
 
 export {
     getUserList,
-    createUser,
+    createNewUser
 };
+
