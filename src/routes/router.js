@@ -11,6 +11,8 @@ const webRoutes = (app) => {
     router.get('/manage-user', userController.gotoManageUser);
     router.post('/create-user', userController.createUser);
     router.get('/delete-user/:id', userController.gotoDeleteUser);
+    router.get('/goto-update-user/:id', userController.gotoUpdateUser);
+    router.post('/update-user/:id', userController.updatethisUser);
     app.use('/', router);
 }
 

@@ -30,17 +30,35 @@ const deleteUser = async (id) => {
 };
 
 const getUserById = async (id) => {
-    const userId = await db.User.findByPk(id);
-    if (!userId) {
+    const user = await db.User.findByPk(id);
+    if (!user) {
         throw new Error('User not found');
     }
-    return userId;
+
+    console.log('User found:', user);
+    return user.get({ plain: true });
+};
+
+const updateUser = async (id, name, email, phone, address, role, gender) => {
+    const user = await db.User.findByPk(id);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    user.name = name;
+    user.email = email;
+    user.phone = phone;
+    user.address = address;
+    user.role = role;
+    user.gender = gender;
+    await user.save();
+    return user.get({ plain: true });
 };
 
 export {
     getUserList,
     createNewUser,
     deleteUser,
-    getUserById
+    getUserById,
+    updateUser
 };
 
