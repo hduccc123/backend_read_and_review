@@ -10,6 +10,7 @@ const webRoutes = (app) => {
     router.get('/', homeController.login);
     router.get('/manage-user', userController.gotoManageUser);
     router.post('/create-user', userController.createUser);
+    router.get('/delete-user/:id', userController.gotoDeleteUser);
     app.use('/', router);
 }
 

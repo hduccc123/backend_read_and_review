@@ -19,10 +19,28 @@ const createNewUser = async (name, email, password, phone, address, role, gender
         role: role
     });
     return newUser;
-}
+};
+
+const deleteUser = async (id) => {
+    const user = await db.User.findByPk(id);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    await user.destroy();
+};
+
+const getUserById = async (id) => {
+    const userId = await db.User.findByPk(id);
+    if (!userId) {
+        throw new Error('User not found');
+    }
+    return userId;
+};
 
 export {
     getUserList,
-    createNewUser
+    createNewUser,
+    deleteUser,
+    getUserById
 };
 

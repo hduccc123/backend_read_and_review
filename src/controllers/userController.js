@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserList, createNewUser } from '../service/userService';
+import { getUserList, createNewUser, deleteUser } from '../service/userService';
 
 const login = (req, res) => {
     res.render('login'); // Render the login view
@@ -32,8 +32,22 @@ const createUser = async (req, res) => {
     }
 };
 
+const gotoDeleteUser = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        await deleteUser(userId);
+        res.render('manageUser', { message: 'User deleted successfully', userList: await getUserList() });
+    } catch (err) {
+        console.error('Error deleting user:', err);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
 export default {
     login,
     gotoManageUser,
-    createUser
+    createUser,
+    gotoDeleteUser
 };
+
