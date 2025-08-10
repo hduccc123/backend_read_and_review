@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sách</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container mt-4">
+
+    <h1>Quản lý sách</h1>
+
+    <!-- Form Thêm Sách -->
+    <div class="card p-3 mb-4">
+        <h4>Thêm sách mới</h4>
+        <form action="/create-product" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label>Tên sách</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Mô tả</label>
+                <textarea name="description" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label>Giá</label>
+                <input type="number" name="price" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="category_id">Danh mục:</label>
+                <select name="category_id" id="category_id" required>
+                    <option value="">-- Chọn danh mục --</option>
+                    <% categories.forEach(cat=> { %>
+                        <option value="<%= cat.id %>">
+                            <%= cat.name %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="author_id">Tác giả:</label>
+                <select name="author_id" id="author_id" required>
+                    <option value="">-- Chọn tác giả --</option>
+                    <% authors.forEach(author=> { %>
+                        <option value="<%= author.id %>">
+                            <%= author.name %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="publisher_id">Nhà xuất bản:</label>
+                <select name="publisher_id" id="publisher_id" required>
+                    <option value="">-- Chọn nhà xuất bản --</option>
+                    <% publishers.forEach(publisher=> { %>
+                        <option value="<%= publisher.id %>">
+                            <%= publisher.name %>
+                        </option>
+                        <% }) %>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Ảnh đại diện</label>
+                <input type="file" name="mainImage" class="form-control" accept="image/*">
+            </div>
+
+            <div class="mb-3">
+                <label>Ảnh chi tiết (nhiều ảnh)</label>
+                <input type="file" name="detailImages" class="form-control" accept="image/*" multiple>
+            </div>
+
+            <button type="submit" class="btn btn-success">Thêm sách</button>
+        </form>
+    </div>
+
+    <!-- Danh sách sách -->
+    <h4>Danh sách sách</h4>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ảnh</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Danh mục</th>
+                <th>Nhà xuất bản</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (products && products.length> 0) { %>
+                <% products.forEach(product=> { %>
+                    <tr>
+                        <td>
+                            <%= product.id %>
+                        </td>
+                        <td>
+                            <% if (product.mainImage) { %>
+                                <img src="/uploads/<%= product.mainImage %>" alt="<%= product.title %>" width="60">
+                                <% } %>
+                        </td>
+                        <td>
+                            <%= product.title %>
+                        </td>
+                        <td>
+                        <td>
+                            <%= product.author ? product.author.name : '' %>
+                        </td>
+                        <td>
+                            <%= product.price.toLocaleString() %> đ
+                        </td>
+                        <td>
+                            <%= product.description %>
+                        </td>
+                        <td>
+                            <%= product.category ? product.category.name : '' %>
+                        </td>
+                        <td>
+                            <%= product.publisher ? product.publisher.name : '' %>
+                        </td>
+                        <td>
+                            <a href="/edit-product/<%= product.id %>" class="btn btn-warning btn-sm">Sửa</a>
+                            <a href="/delete-product/<%= product.id %>" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Bạn có chắc muốn xóa không?')">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center">Chưa có sách nào</td>
+                            </tr>
+                            <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>

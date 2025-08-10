@@ -1,11 +1,11 @@
 import express from 'express';
-import { getUserList, createNewUser, deleteUser, getUserById, updateUser } from '../service/userService';
+import { getUserList, createUser, deleteUser, getUserById, updateUser } from '../service/userService';
 
 const login = (req, res) => {
     res.render('login'); // Render the login view
 }
 
-const gotoManageUser = async (req, res) => {
+const index = async (req, res) => {
     try {
         const userList = await getUserList();
         res.render('manageUser', { userList });
@@ -15,7 +15,7 @@ const gotoManageUser = async (req, res) => {
     }
 }
 
-const createUser = async (req, res) => {
+const create = async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
     const role = req.body.role;
     const gender = req.body.gender;
     try {
-        await createNewUser(name, email, password, phone, address, role, gender);
+        await createUser(name, email, password, phone, address, role, gender);
         res.render('manageUser', { message: 'User created successfully', userList: await getUserList() });
     } catch (err) {
         console.error('Error creating user:', err);
@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
     }
 };
 
-const gotoDeleteUser = async (req, res) => {
+const destroy = async (req, res) => {
     const userId = req.params.id;
     try {
         await deleteUser(userId);
@@ -43,7 +43,7 @@ const gotoDeleteUser = async (req, res) => {
     }
 };
 
-const gotoUpdateUser = async (req, res) => {
+const edit = async (req, res) => {
     const userId = req.params.id;
     try {
         const user = await getUserById(userId);
@@ -53,7 +53,7 @@ const gotoUpdateUser = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-const updatethisUser = async (req, res) => {
+const update = async (req, res) => {
     const id = req.params.id;
     const name = req.body.name;
     const email = req.body.email;
@@ -72,10 +72,10 @@ const updatethisUser = async (req, res) => {
 
 export default {
     login,
-    gotoManageUser,
-    createUser,
-    gotoDeleteUser,
-    gotoUpdateUser,
-    updatethisUser
+    index,
+    create,
+    destroy,
+    edit,
+    update
 };
 

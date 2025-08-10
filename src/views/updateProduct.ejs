@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa Sách</title>
+</head>
+
+<body>
+    <h1>Sửa Sách</h1>
+
+    <form action="/update-product/<%= product.id %>" method="POST" enctype="multipart/form-data">
+        <div>
+            <label>Tên sách:</label>
+            <input type="text" name="title" value="<%= product.title %>" required>
+        </div>
+
+        <div>
+            <label>Tieu de:</label>
+            <input type="text" name="title" value="<%= product.title %>" required>
+        </div>
+        <div>
+            <label>Mô tả:</label>
+            <textarea name="description" required><%= product.description %></textarea>
+        </div>
+
+        <div>
+            <label>Giá:</label>
+            <input type="number" name="price" value="<%= product.price %>" required>
+        </div>
+        <div>
+            <label>Danh mục:</label>
+            <select name="categoryId" required>
+                <% categories.forEach(category=> { %>
+                    <option value="<%= category.id %>" <%=product.category_id===category.id ? 'selected' : '' %>>
+                        <%= category.name %>
+                    </option>
+                    <% }) %>
+            </select>
+        </div>
+        <div>
+            <label>Tác giả:</label>
+            <input type="text" name="author" value="<%= product.author %>" required>
+        </div>
+        <div>
+            <label>Nhà xuất bản:</label>
+            <input type="text" name="publisher" value="<%= product.publisher %>" required>
+        </div>
+        <div>
+            <label>Ảnh hiện tại:</label><br>
+            <% if (product.BookImages && product.BookImages.length> 0) { %>
+                <% product.BookImages.forEach(img=> { %>
+                    <img src="/uploads/<%= img.imageUrl %>" width="80" alt="">
+                    <% }); %>
+                        <% } else { %>
+                            <em>Không có ảnh</em>
+                            <% } %>
+        </div>
+        <div>
+            <label>Thêm ảnh mới (có thể chọn nhiều):</label>
+            <input type="file" name="images" multiple>
+        </div>
+        <button type="submit">💾 Lưu</button>
+    </form>
+</body>
+
+</html>

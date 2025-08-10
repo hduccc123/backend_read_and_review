@@ -7,7 +7,7 @@ const getUserList = async () => {
     return userList;
 };
 
-const createNewUser = async (name, email, password, phone, address, role, gender) => {
+const createUser = async (name, email, password, phone, address, role, gender) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await db.User.create({
         name: name,
@@ -56,7 +56,7 @@ const updateUser = async (id, name, email, phone, address, role, gender) => {
 
 export {
     getUserList,
-    createNewUser,
+    createUser,
     deleteUser,
     getUserById,
     updateUser
