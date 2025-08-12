@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Danh sách sách</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>Danh sách sách</h1>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên sách</th>
+                    <th>Thể loại</th>
+                    <th>Tác giả</th>
+                    <th>Nhà xuất bản</th>
+                    <th>Số lượng</th>
+                    <th>Ảnh bìa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% books.forEach(book=> { %>
+                    <tr>
+                        <td>
+                            <%= book.id %>
+                        </td>
+                        <td>
+                            <%= book.name %>
+                        </td>
+                        <td>
+                            <%= book.category ? book.category.name : '' %>
+                        </td>
+                        <td>
+                            <%= book.author %>
+                        </td>
+                        <td>
+                            <%= book.publisher %>
+                        </td>
+                        <td>
+                            <%= book.quantity %>
+                        </td>
+                        <td>
+                            <% const cover=book.images.find(img=> img.is_cover);
+                                if (cover) {
+                                %>
+                                <img src="<%= cover.url %>" alt="cover" width="80" height="100">
+                                <% } else { %>
+                                    Không có ảnh
+                                    <% } %>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

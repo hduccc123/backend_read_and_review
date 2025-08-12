@@ -11,10 +11,10 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Categories', [
-      { name: 'Tiểu thuyết', description: 'Sách tiểu thuyết', createdAt: new Date(), updatedAt: new Date() },
-      { name: 'Khoa học', description: 'Sách khoa học', createdAt: new Date(), updatedAt: new Date() },
-      { name: 'Kinh tế', description: 'Sách kinh tế', createdAt: new Date(), updatedAt: new Date() }
+    await queryInterface.bulkInsert('categories', [
+      { id: 1, name: 'Fiction' },
+      { id: 2, name: 'Science' },
+      { id: 3, name: 'History' },
     ], {});
   },
 
@@ -25,6 +25,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('Categories', null, {});
+    await queryInterface.bulkDelete('categories', null, {});
   }
 };

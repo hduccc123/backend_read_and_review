@@ -1,59 +1,41 @@
-'use strict';
-const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class Book extends Model {
-    static associate(models) {
-      // Một Book có nhiều ảnh
-      Book.hasMany(models.BookImage, {
-        foreignKey: 'book_id',
-        sourceKey: 'book_id',
-        as: 'images'
-      });
-
-      // Ví dụ: Quan hệ tới category, author, publisher (nếu có)
-      Book.belongsTo(models.Category, {
-        foreignKey: 'category_id',
-        as: 'category'
-      });
-      Book.belongsTo(models.Author, {
-        foreignKey: 'author_id',
-        as: 'author'
-      });
-      Book.belongsTo(models.Publisher, {
-        foreignKey: 'publisher_id',
-        as: 'publisher'
-      });
-    }
-  }
-
-  Book.init({
-    book_id: {
+  const Book = sequelize.define('Book', {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
-    title: {
-      type: DataTypes.STRING(200),
-      allowNull: false
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     description: DataTypes.TEXT,
-    price: DataTypes.DECIMAL(10, 2),
-    stock: DataTypes.INTEGER,
-    category_id: DataTypes.INTEGER,
-    author_id: DataTypes.INTEGER,
-    publisher_id: DataTypes.INTEGER,
-    published_date: DataTypes.DATE,
-    cover_image: DataTypes.STRING,
-    created_at: DataTypes.DATE
+    quantity: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    category_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    author: {
+      type: DataTypes.STRING,
+    },
+    publisher: {
+      type: DataTypes.STRING,
+    },
   }, {
-    sequelize,
-    modelName: 'Book',
-    tableName: 'Books',
+    tableName: 'books',
+    underscored: true,
     timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: false
+    createdAt: 'create_at',
+    updatedAt: 'update_at',
   });
+
+  Book.associate = (models) => {
+    Book.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
+    Book.hasMany(models.Image, { foreignKey: 'book_id', as: 'images' });
+  };
 
   return Book;
 };
