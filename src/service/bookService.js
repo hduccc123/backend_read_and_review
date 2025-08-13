@@ -27,7 +27,34 @@ const getBookList = async () => {
     }
 };
 
+const getCategories = async () => {
+    try {
+        const categories = await db.Category.findAll({ raw: true });
+        return categories;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const createBook = async (newBook, image) => {
+    try {
+        const createdBook = await db.Book.create(newBook);
+        if (image) {
+            await db.Image.create({
+                url: 'images/' + image.filename,
+                book_id: createdBook.id,
+                is_cover: true
+            });
+        }
+        return createdBook;
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 export {
-    getBookList
+    getBookList,
+    createBook,
+    getCategories
 };
