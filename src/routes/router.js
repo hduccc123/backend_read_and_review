@@ -20,8 +20,10 @@ const webRoutes = (app) => {
     //Book routes
     router.get('/manage-book', bookController.index);
     router.post('/create-book', upload.single('cover'), bookController.create);
-    router.get('/create-book', upload.single('cover'), bookController.getcreate);
-
+    router.get('/create-book', upload.single('cover'), bookController.getCreate);
+    router.get('/edit-book/:id', upload.single('cover'), bookController.edit);
+    router.post('/update-book/:id', upload.single('cover'), bookController.update);
+    router.get('/delete-book/:id', bookController.destroy);
 
     app.use('/', router);
 }
