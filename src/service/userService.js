@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs/dist/bcrypt.js';
 import db from '../models/models/index.js';
 
 const getUserList = async () => {
+
     const userList = await db.User.findAll();
     return userList;
 };

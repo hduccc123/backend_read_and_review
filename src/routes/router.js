@@ -2,6 +2,7 @@ import express from 'express';
 import homeController from '../controllers/userController.js';
 import userController from '../controllers/userController.js';
 import bookController from '../controllers/bookController.js';
+import categoryController from '../controllers/categoryController.js';
 
 const upload = require('../config/multer.js'); // Assuming multer is configured in this file
 const router = express.Router();
@@ -24,6 +25,12 @@ const webRoutes = (app) => {
     router.get('/edit-book/:id', upload.single('cover'), bookController.edit);
     router.post('/update-book/:id', upload.single('cover'), bookController.update);
     router.get('/delete-book/:id', bookController.destroy);
+    // Category routes
+    router.get('/manage-category', categoryController.index);
+    router.post('/create-category', categoryController.create);
+    router.get('/edit-category/:id', categoryController.edit);
+    router.post('/update-category/:id', categoryController.update);
+    router.get('/delete-category/:id', categoryController.destroy);
 
     app.use('/', router);
 }
