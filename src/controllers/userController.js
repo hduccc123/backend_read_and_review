@@ -1,10 +1,6 @@
 import express from 'express';
 import { getUserList, createUser, deleteUser, getUserById, updateUser } from '../service/userService';
 
-const login = (req, res) => {
-    res.render('login'); // Render the login view
-}
-
 const index = async (req, res) => {
     try {
         const userList = await getUserList();
@@ -71,7 +67,6 @@ const update = async (req, res) => {
 };
 
 export default {
-    login,
     index,
     create,
     destroy,

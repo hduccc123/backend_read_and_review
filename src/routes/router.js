@@ -1,8 +1,8 @@
 import express from 'express';
-import homeController from '../controllers/userController.js';
 import userController from '../controllers/userController.js';
 import bookController from '../controllers/bookController.js';
-import categoryController from '../controllers/categoryController.js';
+import categoryController from '../controllers/categoryController.js'
+import authController from '../controllers/authController.js';
 
 const upload = require('../config/multer.js'); // Assuming multer is configured in this file
 const router = express.Router();
@@ -10,7 +10,8 @@ const router = express.Router();
 
 const webRoutes = (app) => {
     // Define your routes here
-    router.get('/', homeController.login);
+    router.get('/', authController.show);
+    router.post('/', authController.login);
 
     // User routes
     router.get('/manage-user', userController.index);
