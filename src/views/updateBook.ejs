@@ -49,15 +49,19 @@
                             value="<%= book.quantity %>">
                     </div>
                     <div class="mb-3">
-                        <label for="image" class="form-label">Cover Image:</label>
-                        <input type="file" class="form-control" id="image" name="cover" accept="image/*">
-                    </div>
-                    <div class="mb-3">
-                        <img src="<%= image ? '/' + image.url : '' %>" alt="cover" width="300" height="150">
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Update Book</button>
-                    </div>
+                        <label for="price" class="form-label">Price:</label>
+                        <input type="number" class="form-control" id="price" placeholder="Price" name="price"
+                            value="<%= book.price %>" step="1000">
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Cover Image:</label>
+                            <input type="file" class="form-control" id="image" name="cover" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <img src="<%= image ? '/' + image.url : '' %>" alt="cover" width="300" height="150">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Update Book</button>
+                        </div>
                 </form>
             </div>
         </div>

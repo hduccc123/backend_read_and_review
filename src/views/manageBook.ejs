@@ -23,7 +23,9 @@
                     <th>Tác giả</th>
                     <th>Nhà xuất bản</th>
                     <th>Số lượng</th>
+                    <th>Giá</th>
                     <th>Ảnh bìa</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +48,9 @@
                         </td>
                         <td>
                             <%= book.quantity %>
+                        </td>
+                        <td>
+                            <%= book.price %>
                         </td>
                         <td>
                             <% const cover=book.images.find(img=> img.is_cover);

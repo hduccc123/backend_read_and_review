@@ -97,11 +97,30 @@ const updateBook = async (id, updatedData, image) => {
             throw new Error('Book not found');
         }
         const newBook = await book.update(updatedData);
-        await existingImage.update({
-            url: 'images/' + image.filename,
-            book_id: newBook.id,
-            is_cover: true
-        });
+        let finalUrl = null;
+        if (image) {
+            // image có thể là "filename.jpg" hoặc "images/filename.jpg"
+            if (typeof image === 'string') {
+                finalUrl = image.startsWith('images/') ? image : `images/${image}`;
+            } else if (image.filename) {
+                finalUrl = `images/${image.filename}`;
+            }
+        } else {
+            // Không có ảnh mới & không gửi oldImage -> giữ nguyên
+            finalUrl = existingImage ? existingImage.url : null;
+        }
+
+        // Chỉ update ảnh nếu có URL hợp lệ và khác giá trị cũ
+        if (finalUrl) {
+            if (existingImage) {
+                if (existingImage.url !== finalUrl) {
+                    await existingImage.update({ url: finalUrl });
+                }
+            } else {
+                await db.Image.create({ url: finalUrl, book_id: id, is_cover: true });
+            }
+        }
+
         return newBook;
     } catch (error) {
         throw error;

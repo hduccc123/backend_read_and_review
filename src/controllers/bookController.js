@@ -60,7 +60,8 @@ const update = async (req, res) => {
     try {
         const bookId = req.params.id;
         const updatedBook = req.body;
-        const image = req.file;
+        console.log(req.body, req.file);
+        const image = req.file ? req.file : req.body.oldImage;
         await updateBook(bookId, updatedBook, image);
         console.log('Book updated successfully:', updatedBook);
         res.redirect('/manage-book');

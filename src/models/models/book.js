@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
     publisher: {
       type: DataTypes.STRING,
     },
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0.00
+    },
   }, {
     tableName: 'books',
     underscored: true,
