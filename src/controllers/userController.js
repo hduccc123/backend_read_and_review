@@ -3,11 +3,12 @@ import { getUserList, createUser, deleteUser, getUserById, updateUser } from '..
 
 const index = async (req, res) => {
     let { limit, page } = req.query;
-    limit = parseInt(limit) || 10;
-    page = parseInt(page) || 1;
+    limit = Number(limit) || 10;
+    page = Number(page) || 1;
     try {
         const { userList, meta } = await getUserList(limit, page);
-        res.render('manageUser', { userList, meta });
+        console.log(meta, userList);
+        res.render('manageUser', { userList: userList, meta: meta });
     } catch (err) {
         console.error('Error fetching user list:', err);
         res.status(500).send('Internal Server Error');
@@ -62,7 +63,8 @@ const update = async (req, res) => {
     const gender = req.body.gender;
     try {
         await updateUser(id, name, email, phone, address, role, gender);
-        res.render('manageUser', { message: 'User updated successfully', userList: await getUserList() });
+        const { userList, meta } = await getUserList();
+        res.render('manageUser', { message: 'User updated successfully', userList: userList, meta: meta });
     } catch (err) {
         console.error('Error updating user:', err);
         res.status(500).send('Internal Server Error');

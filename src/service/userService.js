@@ -3,8 +3,9 @@ import bcrypt from 'bcryptjs/dist/bcrypt.js';
 import db from '../models/models/index.js';
 
 const getUserList = async (limit, page) => {
+    limit = Number(limit) || 10;
+    page = Number(page) || 1;
     const offset = (page - 1) * limit;
-
     const userList = await db.User.findAndCountAll({
         limit: limit,
         offset: offset,
