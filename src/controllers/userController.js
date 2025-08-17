@@ -2,9 +2,12 @@ import express from 'express';
 import { getUserList, createUser, deleteUser, getUserById, updateUser } from '../service/userService';
 
 const index = async (req, res) => {
+    let { limit, page } = req.query;
+    limit = parseInt(limit) || 10;
+    page = parseInt(page) || 1;
     try {
-        const userList = await getUserList();
-        res.render('manageUser', { userList });
+        const { userList, meta } = await getUserList(limit, page);
+        res.render('manageUser', { userList, meta });
     } catch (err) {
         console.error('Error fetching user list:', err);
         res.status(500).send('Internal Server Error');

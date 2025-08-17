@@ -6,6 +6,7 @@ const viewEngine = (app) => {
     app.set('views', './src/views');
     app.use(expressLayouts);
     app.use(express.static('./src/public'));
+    app.set('layout', 'layout');
 }
 
 export default viewEngine;

@@ -2,10 +2,22 @@ import express from 'express';
 import bcrypt from 'bcryptjs/dist/bcrypt.js';
 import db from '../models/models/index.js';
 
-const getUserList = async () => {
+const getUserList = async (limit, page) => {
+    const offset = (page - 1) * limit;
 
-    const userList = await db.User.findAll();
-    return userList;
+    const userList = await db.User.findAndCountAll({
+        limit: limit,
+        offset: offset,
+        order: [['id', 'ASC']]
+    });
+    return {
+        userList: userList.rows, // ✅ chỉ lấy rows để render
+        meta: {
+            totalItems: userList.count,
+            totalPages: Math.ceil(userList.count / limit),
+            currentPage: page
+        }
+    };
 };
 
 const createUser = async (name, email, password, phone, address, role, gender) => {

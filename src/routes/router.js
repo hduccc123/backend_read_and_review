@@ -3,15 +3,19 @@ import userController from '../controllers/userController.js';
 import bookController from '../controllers/bookController.js';
 import categoryController from '../controllers/categoryController.js'
 import authController from '../controllers/authController.js';
+import getCustomersLayout from '../service/layoutSevice.js';
 
 const upload = require('../config/multer.js'); // Assuming multer is configured in this file
 const router = express.Router();
 
 
 const webRoutes = (app) => {
+
+
     // Define your routes here
-    router.get('/', authController.show);
-    router.post('/', authController.login);
+    // Admin routes
+    router.get('/login', authController.show);
+    router.post('/login', authController.login);
 
     // User routes
     router.get('/manage-user', userController.index);

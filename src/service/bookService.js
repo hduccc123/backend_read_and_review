@@ -3,9 +3,11 @@ import db from '../models/models/index.js';
 import upload from '../config/multer.js';
 import { raw } from 'body-parser';
 
-const getBookList = async () => {
+const getBookList = async (limit, page) => {
+    const offset = (page - 1) * limit;
+
     try {
-        const books = await db.Book.findAll({
+        const books = await db.Book.findAndCountAll({
             include: [
                 {
                     model: db.Image,
@@ -17,12 +19,23 @@ const getBookList = async () => {
                     as: 'category',
                     attributes: ['id', 'name']
                 }
-            ]
+            ],
+            offset,
+            limit,
+            order: [['id', 'ASC']]
         });
         const images = await db.Image.findAll({ raw: true });
         const categories = await db.Category.findAll({ raw: true });
-        console.log({ books, images, categories });
-        return { books, images, categories };
+        return {
+            books: books.rows, // ✅ chỉ lấy rows để render
+            meta: {
+                totalItems: books.count,
+                totalPages: Math.ceil(books.count / limit),
+                currentPage: page
+            },
+            images,
+            categories
+        };
     } catch (error) {
         throw error;
     }

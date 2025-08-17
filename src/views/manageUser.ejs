@@ -8,6 +8,31 @@
             align-items: center;
             gap: 10px;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a,
+        .pagination strong {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .pagination strong {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -127,6 +152,30 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <!-- Phân trang -->
+                <div class="pagination">
+                    <% if (meta.currentPage> 1) { %>
+                        <a href="/users?page=<%= meta.currentPage - 1 %>&limit=<%= meta.limit %>">« Trước</a>
+                        <% } %>
+
+                            <% for (let i=1; i <=meta.totalPages; i++) { %>
+                                <% if (i===meta.currentPage) { %>
+                                    <strong>
+                                        <%= i %>
+                                    </strong>
+                                    <% } else { %>
+                                        <a href="/users?page=<%= i %>&limit=<%= meta.limit %>">
+                                            <%= i %>
+                                        </a>
+                                        <% } %>
+                                            <% } %>
+
+                                                <% if (meta.currentPage < meta.totalPages) { %>
+                                                    <a
+                                                        href="/users?page=<%= meta.currentPage + 1 %>&limit=<%= meta.limit %>">Sau
+                                                        »</a>
+                                                    <% } %>
                 </div>
             </div>
 

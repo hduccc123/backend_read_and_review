@@ -4,6 +4,32 @@
 <head>
     <title>Danh sách sách</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a,
+        .pagination strong {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .pagination strong {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -71,6 +97,32 @@
                     <% }) %>
             </tbody>
         </table>
+        <!-- Thanh phân trang -->
+        <div class="pagination">
+            <!-- Nút Trang trước -->
+            <% if (meta.currentPage> 1) { %>
+                <a href="/books?page=<%= meta.currentPage - 1 %>&limit=<%= meta.limit %>">« Trước</a>
+                <% } %>
+
+                    <!-- Các số trang -->
+                    <% for (let i=1; i <=meta.totalPages; i++) { %>
+                        <% if (i===meta.currentPage) { %>
+                            <strong>
+                                <%= i %>
+                            </strong>
+                            <% } else { %>
+                                <a href="/books?page=<%= i %>&limit=<%= meta.limit %>">
+                                    <%= i %>
+                                </a>
+                                <% } %>
+                                    <% } %>
+
+                                        <!-- Nút Trang sau -->
+                                        <% if (meta.currentPage < meta.totalPages) { %>
+                                            <a href="/books?page=<%= meta.currentPage + 1 %>&limit=<%= meta.limit %>">Sau
+                                                »</a>
+                                            <% } %>
+        </div>
     </div>
 </body>
 

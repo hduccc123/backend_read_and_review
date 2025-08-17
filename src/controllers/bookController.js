@@ -1,9 +1,20 @@
 import { getBookList, getCategories, createBook, getBookById, updateBook, deleteBook, getImageByBookId } from '../service/bookService.js';
 
 const index = async (req, res) => {
+    let { limit, page } = req.query;
+
+    // đảm bảo có default value
+    limit = parseInt(limit) || 10;
+    page = parseInt(page) || 1;
     try {
-        const { books, images, categories } = await getBookList();
-        res.render('manageBook', { books, images, categories });
+        const { books, images, categories, meta } = await getBookList(parseInt(limit), parseInt(page));
+        console.log(meta);
+        res.render('manageBook', {
+            books,
+            meta,       // ✅ truyền meta để EJS dùng vẽ nút phân trang
+            images,
+            categories
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
