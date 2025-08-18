@@ -1,6 +1,7 @@
 import express from 'express';
 import viewEngine from './config/viewEngine.js';
 import webRoutes from './routes/router.js';
+import apiRoutes from './routes/api.js';
 import dotenv from 'dotenv';
 import connection from './config/databaseConfig.js';
 import path from 'path';
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //configure routes
 webRoutes(app);
+apiRoutes(app);
 //test database connection
 connection();
 

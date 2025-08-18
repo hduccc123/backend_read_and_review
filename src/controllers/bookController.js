@@ -4,7 +4,7 @@ const index = async (req, res) => {
     let { limit, page } = req.query;
 
     // đảm bảo có default value
-    limit = parseInt(limit) || 10;
+    limit = parseInt(limit) || 6;
     page = parseInt(page) || 1;
     try {
         const { books, images, categories, meta } = await getBookList(parseInt(limit), parseInt(page));

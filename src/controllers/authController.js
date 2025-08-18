@@ -9,7 +9,7 @@ const login = async (req, res) => {
     const user = await authService.checkCredentials(username, password);
     if (user) {
         // Authentication successful
-        res.render('home');
+        res.render('admin');
     } else {
         // Authentication failed
         res.render('login', { layout: false, error: 'Invalid username or password' });
