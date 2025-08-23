@@ -7,37 +7,59 @@
         <%= title || "Book Store" %>
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Custom styles can be added here */
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            max-height: 400px;
+        }
+
+        .carousel {
+            max-height: 400px;
+            overflow: hidden;
+        }
+
+        .card-img-top img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Header -->
     <nav class="navbar navbar-light bg-light border-bottom">
-        <div class="container">
+        <div class="container mt-3">
             <div class="row align-items-center w-100 g-3">
 
                 <!-- Logo -->
-                <div class="col-auto">
+                <div class="col-md-2">
                     <a class="navbar-brand fw-bold text-success" href="/">BookStore</a>
                 </div>
 
                 <!-- Spacer = bề rộng sidebar (2/12) để can hàng với banner -->
-                <div class="d-none d-md-block col-md-2"></div>
+
 
                 <!-- Ô tìm kiếm: bắt đầu đúng vị trí mép trái banner -->
-                <div class="col-12 col-md-6">
+                <div class="col-md-6">
                     <form class="mb-0" method="get" action="/search">
                         <div class="input-group flex-nowrap">
-                            <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm...">
-                            <button class="btn btn-success text-nowrap" type="submit">Tìm kiếm</button>
+                            <input class="form-control" type="search" name="q" placeholder="Find something"
+                                aria-label="Search">
+                            <button class="btn btn-success text-nowrap" type="submit">Search</button>
                         </div>
                     </form>
                 </div>
 
                 <!-- Đăng nhập / Đăng ký -->
-                <div class="col-auto ms-md-auto">
-                    <a href="/login" class="btn btn-sm btn-outline-primary me-2">Đăng nhập</a>
-                    <a href="/register" class="btn btn-sm btn-success">Đăng ký</a>
+                <div class="d-none d-md-block col-md-2"></div>
+                <div class="col-md-2">
+                    <a href="/login" class="btn btn-sm btn-outline-primary me-2">Sign In</a>
+                    <a href="/register" class="btn btn-sm btn-success">Register</a>
                 </div>
 
             </div>
@@ -50,15 +72,21 @@
             <!-- Sidebar Danh mục -->
             <aside class="col-md-2">
                 <div class="list-group">
+                    <strong class="list-group-item list-group-item-action">Categories:</strong>
                     <% categories.forEach(cat=> { %>
                         <a href="/category/<%= cat.id %>" class="list-group-item list-group-item-action">
                             <%= cat.name %>
                         </a>
                         <% }) %>
+                            <a href="/books" class="list-group-item list-group-item-action">
+                                Reviews
+                            </a>
+                            <a href="/about" class="list-group-item list-group-item-action">
+                                About me
+                            </a>
                 </div>
             </aside>
 
-            <!-- Nội dung chính -->
             <main class="col-md-10">
                 <%- body %>
             </main>

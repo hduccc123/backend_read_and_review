@@ -3,6 +3,7 @@ import viewEngine from './config/viewEngine.js';
 import webRoutes from './routes/router.js';
 import apiRoutes from './routes/api.js';
 import dotenv from 'dotenv';
+import setBreadcrumbs from './service/breadcrumbMiddleware.js';
 import connection from './config/databaseConfig.js';
 import path from 'path';
 
@@ -18,7 +19,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
+app.use(setBreadcrumbs);
 //configure routes
 webRoutes(app);
 apiRoutes(app);

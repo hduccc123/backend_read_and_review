@@ -8,11 +8,11 @@
 
     <!-- Banner items -->
     <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="4000"> <!-- 4s -->
-            <img src="/images/banner1.jpg" class="d-block w-100" alt="Banner 1" style="height:400px; object-fit:cover;">
+        <div class="carousel-item active" data-bs-interval="2500"> <!-- 2.5s -->
+            <img src="/images/banner1.jpg" class="d-block w-100" alt="Banner 1" style="height:400px; object-fit:fill;">
         </div>
-        <div class="carousel-item" data-bs-interval="4000"> <!-- 4s -->
-            <img src="/images/banner2.jpg" class="d-block w-100" alt="Banner 2" style="height:400px; object-fit:cover;">
+        <div class="carousel-item" data-bs-interval="2500"> <!-- 2.5s -->
+            <img src="/images/banner2.jpg" class="d-block w-100" alt="Banner 2" style="height:400px; object-fit:fill;">
         </div>
     </div>
 
@@ -28,9 +28,9 @@
 </div>
 
 
-<h4 class="mb-3">Sách Mới Nổi Bật</h4>
+<h4 class="mb-3">Book Featured</h4>
 <div class="row">
-    <% books.forEach(book=> { %>
+    <% featuredBooks.forEach(book=> { %>
         <div class="col-md-3 mb-4">
             <div class="card h-100">
                 <div class="card-img-top d-flex justify-content-center align-items-center" style="margin: 10px;">
@@ -49,9 +49,60 @@
                     <p class="card-text text-danger  d-flex justify-content-center align-items-center">
                         <%= book.price %> đ
                     </p>
-                    <a href="/book/<%= book.id %>"
+                    <a href="/books/<%= book.id %>"
                         class="btn btn-sm btn-outline-success  d-flex justify-content-center align-items-center">Xem chi
                         tiết</a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+</div>
+
+<h4 class="mb-3">Other Books</h4>
+<div class="row">
+    <% otherBooks.forEach(book=> { %>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-img-top d-flex justify-content-center align-items-center" style="margin: 10px;">
+                    <% const cover=book.images.find(img=> img.is_cover);
+                        if (cover) {
+                        %>
+                        <img src="<%= cover.url %>" alt="cover" width="100px" height="100px">
+                        <% } else { %>
+                            Không có ảnh
+                            <% } %>
+                </div>
+                <div class="card-body ">
+                    <h6 class="card-title  d-flex justify-content-center align-items-center ">
+                        <%= book.name %>
+                    </h6>
+                    <p class="card-text text-danger  d-flex justify-content-center align-items-center">
+                        <%= book.price %> đ
+                    </p>
+                    <a href="/books/<%= book.id %>"
+                        class="btn btn-sm btn-outline-success  d-flex justify-content-center align-items-center">Xem chi
+                        tiết</a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+</div>
+<h4 class="mb-3">Văn phòng phẩm</h4>
+<div class="row">
+    <% featuredProducts.forEach(product=> { %>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-img-top d-flex justify-content-center align-items-center" style="margin: 10px;">
+                    <img src="<%= product.image %>" alt="Image" width="100"><br>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title text-center">
+                        <%= product.name %>
+                    </h6>
+                    <p class="card-text text-danger text-center">
+                        <%= product.price %> đ
+                    </p>
+                    <a href="/products/<%= product.id %>" class="btn btn-sm btn-outline-success w-100">Xem chi tiết</a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,64 @@
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <div class="container mt-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <% if (breadcrumbs && breadcrumbs.length) { %>
+                    <% breadcrumbs.forEach((bc, index)=> { %>
+                        <% if (bc.url && index < breadcrumbs.length - 1) { %>
+                            <li class="breadcrumb-item">
+                                <a href="<%= bc.url %>">
+                                    <%= bc.name %>
+                                </a>
+                            </li>
+                            <% } else { %>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <%= bc.name %>
+                                </li>
+                                <% } %>
+                                    <% }) %>
+                                        <% } %>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <!-- Hình ảnh -->
+        <div class="col-md-4">
+            <% if (book.images && book.images.length> 0) { %>
+                <% const cover=book.images.find(img=> img.is_cover) || book.images[0]; %>
+                    <img src="/<%= cover.url %>" class="img-fluid rounded border" alt="<%= book.title %>">
+                    <% } else { %>
+                        <img src="/images/no-image.png" class="img-fluid rounded border" alt="No Image">
+                        <% } %>
+        </div>
+
+        <!-- Thông tin sách -->
+        <div class="col-md-8">
+            <h2><strong>Tên sách:</strong>
+                <%= book.name %>
+            </h2>
+            <p><strong>Thể loại:</strong>
+                <%= book.category ? book.category.name : 'Chưa có' %>
+            </p>
+            <p><strong>Tác giả:</strong>
+                <%= book.author || 'Không rõ' %>
+            </p>
+            <p><strong>Nhà xuất bản:</strong>
+                <%= book.publisher || 'Chưa có thông tin' %>
+                    <p><strong>Giá:</strong>
+                        <span class="text-danger fw-bold">
+                            <%= book.price ? book.price.toLocaleString() : 'Liên hệ' %> ₫
+                        </span>
+                    </p>
+                    <p><strong>Mô tả:</strong></p>
+                    <p>
+                        <%= book.description || 'Chưa có mô tả' %>
+                    </p>
+
+                    <div class="mt-3">
+                        <button class="btn btn-success">Thêm vào giỏ</button>
+                        <a href="/" class="btn btn-outline-secondary">Quay lại</a>
+                    </div>
+        </div>
+    </div>
+</div>

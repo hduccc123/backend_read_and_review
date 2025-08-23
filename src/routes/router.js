@@ -5,6 +5,7 @@ import categoryController from '../controllers/categoryController.js'
 import authController from '../controllers/authController.js';
 import getCustomersLayout from '../service/layoutSevice.js';
 import homeController from '../controllers/homeController.js';
+import productController from '../controllers/productController.js';
 
 const upload = require('../config/multer.js'); // Assuming multer is configured in this file
 const router = express.Router();
@@ -13,6 +14,8 @@ const router = express.Router();
 const webRoutes = (app) => {
     //Homepage
     router.get('/', getCustomersLayout, homeController.getHomePage);
+    //Book details page
+    router.get('/books/:id', getCustomersLayout, homeController.getDetailPage);
 
     // Define your routes here
     // Admin routes
@@ -40,6 +43,12 @@ const webRoutes = (app) => {
     router.get('/edit-category/:id', categoryController.edit);
     router.post('/update-category/:id', categoryController.update);
     router.get('/delete-category/:id', categoryController.destroy);
+    // Product routes
+    router.get('/manage-product', productController.index);
+    router.post('/create-product', upload.single('image'), productController.create);
+    router.post('/update-product/:id', upload.single('image'), productController.update);
+    router.get('/edit-product/:id', productController.edit);
+    router.get('/delete-product/:id', productController.destroy);
 
     app.use('/', router);
 }
