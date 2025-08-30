@@ -1,0 +1,47 @@
+<!-- views/categoryPage.ejs -->
+<h4 class="mb-3">
+    <%= categoryName || 'Danh mục không xác định' %>
+</h4>
+
+<div class="row">
+    <% books.forEach(book=> { %>
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-img-top d-flex justify-content-center align-items-center" style="margin: 10px;">
+                    <% const cover=book.images.find(img=> img.is_cover);
+                        if (cover) {
+                        %>
+                        <img src="/images/<%= cover.url.split('/').pop() %>" alt="cover" width="100px" height="100px">
+                        <% } else { %>
+                            Không có ảnh
+                            <% } %>
+                </div>
+                <div class="card-body ">
+                    <h6 class="card-title  d-flex justify-content-center align-items-center ">
+                        <%= book.name %>
+                    </h6>
+                    <p class="card-text text-danger  d-flex justify-content-center align-items-center">
+                        <%= book.price %> đ
+                    </p>
+                    <a href="/books/<%= book.id %>"
+                        class="btn btn-sm btn-outline-success  d-flex justify-content-center align-items-center">Xem chi
+                        tiết</a>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+</div>
+
+
+<!-- Phân trang -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <% for (let i=1; i <=Math.ceil(meta.total / meta.limit); i++) { %>
+            <li class="page-item <%= i === meta.page ? 'active' : '' %>">
+                <a class="page-link" href="/category/<%= categoryId %>?page=<%= i %>&limit=<%= meta.limit %>">
+                    <%= i %>
+                </a>
+            </li>
+            <% } %>
+    </ul>
+</nav>

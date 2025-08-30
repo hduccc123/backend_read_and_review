@@ -16,6 +16,7 @@ const webRoutes = (app) => {
     router.get('/', getCustomersLayout, homeController.getHomePage);
     //Book details page
     router.get('/books/:id', getCustomersLayout, homeController.getDetailPage);
+    router.get('/category/:id', getCustomersLayout, homeController.getCategoryPage);
 
     // Define your routes here
     // Admin routes

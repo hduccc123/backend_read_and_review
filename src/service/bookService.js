@@ -2,6 +2,7 @@ import express from 'express';
 import db from '../models/models/index.js';
 import upload from '../config/multer.js';
 import { raw } from 'body-parser';
+const { Op } = require('sequelize');
 
 const getBookList = async (limit, page) => {
     const offset = (page - 1) * limit;
@@ -164,10 +165,50 @@ const getImageByBookId = async (bookId) => {
     }
 };
 
+const getBookListByCategories = async (categoryIds, limit, page) => {
+    try {
+        // Lấy thông tin danh mục
+        const category = await db.Category.findOne({ where: { id: categoryIds[0] } });
+        if (!category) {
+            return {
+                books: [],
+                meta: { total: 0, page, limit },
+                categoryName: 'Danh mục không tồn tại'
+            };
+        }
+
+        // Lấy danh sách sách và include Images
+        const images = await db.Image.findAll({ raw: true });
+        const { rows: books, count } = await db.Book.findAndCountAll({
+            where: {
+                category_id: {
+                    [Op.in]: categoryIds
+                }
+            },
+            include: [
+                { model: db.Category, as: 'category' }, // Include Category
+                { model: db.Image, as: 'images', attributes: ['id', 'url', 'is_cover'] } // Include Images
+            ],
+            limit,
+            offset: (page - 1) * limit
+        });
+        return {
+            books,
+            images,
+            meta: { total: count, page, limit },
+            categoryName: category.name
+        };
+    } catch (error) {
+        console.error('Error fetching books by categories:', error);
+        throw error;
+    }
+};
+
 export {
     getBookList,
     createBook,
     getCategories,
+    getBookListByCategories,
     getImageByBookId,
     getBookById,
     updateBook,

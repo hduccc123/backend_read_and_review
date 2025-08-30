@@ -1,4 +1,4 @@
-import { getBookList, getBookById, getImageByBookId } from '../service/bookService.js';
+import { getBookList, getBookById, getImageByBookId, getBookListByCategories } from '../service/bookService.js';
 import productService from '../service/productService.js';
 const getHomePage = async (req, res) => {
     let { limit, page } = req.query;
@@ -62,9 +62,53 @@ const getProducts = async (req, res) => {
     }
 }
 
+const getCategoryPage = async (req, res) => {
+    let { limit, page } = req.query;
+    limit = parseInt(limit) || 10;
+    page = parseInt(page) || 1;
+    const categoryId = parseInt(req.params.id);
+
+    console.log('Category ID:', categoryId);
+
+    try {
+        // Kiểm tra categoryId hợp lệ
+        if (isNaN(categoryId) || categoryId <= 0) {
+            console.log('Invalid categoryId:', categoryId);
+            return res.status(404).render('categoryPage', {
+                title: 'Category Page',
+                books: [],
+                meta: { total: 0, page, limit },
+                categoryName: 'Danh mục không tồn tại',
+                categoryId
+            });
+        }
+
+        const { books, meta, categoryName, images } = await getBookListByCategories([categoryId], limit, page);
+        console.log('Books in category:', books);
+        res.render('categoryPage', {
+            title: 'Category Page',
+            books,
+            meta,
+            images,
+            categoryName,
+            categoryId
+        });
+    } catch (error) {
+        console.error('Error fetching category products:', error);
+        res.status(500).render('categoryPage', {
+            title: 'Category Page',
+            books: [],
+            meta: { total: 0, page, limit },
+            categoryName: 'Lỗi khi tải danh mục',
+            categoryId
+        });
+    }
+}
+
 export default {
     getHomePage,
     getDetailPage,
+    getCategoryPage,
     getProducts
 };
 
